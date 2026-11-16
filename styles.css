@@ -13,8 +13,10 @@
   --muted: #8a8a8a;
   --silver-gradient: linear-gradient(135deg, #7a7a7a 0%, #f5f5f5 45%, #bdbdbd 70%, #8c8c8c 100%);
 
-  --font-sans: "Mona Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  /* Headings: Archivo (expanded) · Body & UI: Inter · Accent words: Cormorant Garamond italic */
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Cormorant Garamond", "Times New Roman", Georgia, serif;
 
   --pad: clamp(16px, 3.4vw, 48px);
   --radius: 16px;
@@ -42,7 +44,15 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
   color: transparent;
 }
 .silver-t { color: var(--silver); }
-.serif, .display em, .title em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.serif, .display em, .title em { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-stretch: normal; }
+.display em, .title em { font-size: 1.12em; line-height: .8; }
+
+/* headings use the display face */
+.display, .title, .hero__obe, .card h3, .work h3, .marquee span,
+.contact__value, .footer__col a, .hero__card strong, .brand__word b {
+  font-family: var(--font-display);
+  font-stretch: 115%;
+}
 .muted { color: var(--muted); }
 .label {
   font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
@@ -80,7 +90,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .brand__mark { width: 36px; height: auto; }
 .brand__word { display: flex; flex-direction: column; line-height: .9; }
 .brand__word b { font-weight: 900; font-size: 24px; }
-.brand__word i { font-family: var(--font-serif); color: var(--silver); font-size: 22px; }
+.brand__word i { font-family: var(--font-serif); font-weight: 500; color: var(--silver); font-size: 22px; }
 .nav { display: flex; gap: 40px; }
 .nav a { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--silver-light); }
 .nav a:hover { color: var(--white); }
