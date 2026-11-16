@@ -20,6 +20,13 @@
 
   --pad: clamp(16px, 3.4vw, 48px);
   --radius: 16px;
+
+  /* glass */
+  --glass-bg: rgba(255, 255, 255, .045);
+  --glass-bg-strong: rgba(255, 255, 255, .08);
+  --glass-border: rgba(255, 255, 255, .14);
+  --glass-shine: rgba(255, 255, 255, .22);
+  --glass-blur: blur(20px) saturate(150%);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -171,7 +178,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 
 /* ---------- generic section ---------- */
 .section { padding: 140px var(--pad); display: grid; gap: 64px; }
-.section--alt { background: var(--surface); }
+.section--alt { background: rgba(13, 13, 13, .55); }
 .section__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
 .title {
   display: flex; flex-direction: column;
@@ -385,3 +392,85 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .footer__col a { transition: color .25s ease, translate .25s ease; }
 .footer__col a:hover { translate: 4px 0; }
 .footer__col--right a:hover { translate: -4px 0; }
+
+/* =========================================================
+   Glass effect
+   ========================================================= */
+/* background light the glass blurs */
+body { isolation: isolate; }
+.ambient { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.ambient span {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(225, 225, 225, .16), rgba(225, 225, 225, 0) 68%);
+  animation: orb 26s ease-in-out infinite alternate;
+}
+.ambient span:nth-child(1) { width: 60vmax; height: 60vmax; left: -18vmax; top: -10vmax; }
+.ambient span:nth-child(2) { width: 46vmax; height: 46vmax; right: -14vmax; top: 30vh; animation-duration: 32s; animation-delay: -8s; background: radial-gradient(circle, rgba(192, 192, 192, .14), rgba(192, 192, 192, 0) 68%); }
+.ambient span:nth-child(3) { width: 40vmax; height: 40vmax; left: 30vw; bottom: -20vmax; animation-duration: 38s; animation-delay: -16s; }
+@keyframes orb {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(12vw, 8vh) scale(1.15); }
+  100% { transform: translate(-6vw, 16vh) scale(.92); }
+}
+
+/* shared frosted-glass surface */
+.header,
+.hero__card,
+.card,
+.media--photo, .media--video,
+.btn--ghost,
+.contact__rows,
+.footer__card {
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+.header { background: rgba(0, 0, 0, .35); }
+.header.is-scrolled { background: rgba(10, 10, 10, .5); border-bottom-color: var(--glass-border); }
+
+.hero__card, .card, .contact__rows {
+  background: linear-gradient(145deg, var(--glass-bg-strong), var(--glass-bg) 60%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-shine), inset 0 0 0 1px rgba(255,255,255,.02), 0 24px 60px rgba(0, 0, 0, .45);
+}
+.card:hover { border-color: rgba(255, 255, 255, .35); background: linear-gradient(145deg, rgba(255,255,255,.11), var(--glass-bg) 60%); }
+
+/* silver glass CTA card */
+.card--cta {
+  background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(200,200,200,.45));
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 24px 60px rgba(0,0,0,.45);
+}
+.card--cta:hover { background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(210,210,210,.55)); }
+
+/* glass media slots (dashed outline keeps them clearly "empty") */
+.media--photo, .media--video {
+  background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border-color: rgba(192, 192, 192, .55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+.media--photo:hover, .media--video:hover {
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.10), transparent 70%), linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+}
+
+/* glass buttons */
+.btn--ghost { background: rgba(255, 255, 255, .06); border-color: var(--glass-border); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+.btn--ghost:hover { background: rgba(255, 255, 255, .92); }
+.btn--primary { box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 8px 24px rgba(255,255,255,.08); }
+
+/* contact rows sit on one glass panel */
+.contact__rows { border-radius: 24px; padding: 8px 32px; }
+.contact__row:first-child { border-top: 0; }
+.contact__row { border-top-color: var(--glass-border); }
+
+/* footer: dark glass over the silver gradient */
+.footer__card { background: rgba(0, 0, 0, .62); border: 1px solid rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.2); }
+
+/* marquee: thin glass band */
+.marquee { background: rgba(255,255,255,.03); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-color: var(--glass-border); }
+
+@media (max-width: 760px) {
+  .contact__rows { padding: 4px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient span { animation: none; }
+}
